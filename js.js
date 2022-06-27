@@ -1,27 +1,23 @@
-const url = "https://my-json-server.typicode.com/Alexey205/MartPlace/products"
-const cards = document.getElementById("cards");
-const container = document.getElementById("container");
+const url = "https://my-json-server.typicode.com/Alexey205/MartPlace/products";
 
 $.ajax({
     url: url,
-    success: function(result){
-        console.log(result);
+    success: function (response) {
+        console.log(response);
+        $("#cards").innerHTML = null;
+        response.forEach(card => {
+        let elem = document.createElement('div');
+        elem.classList.add('card');
+        elem.innerHTML = `
+            <h2 class='cardName'>${card.name}</h2>
+            <img class='cardPhoto' src='${card.photo_url}' alt='${card.name}'>
+            <p class='cardPrice'><b>Price: </b>${card.price}$</p>
+            <p class='cardDescription'><b>Description: </b>${card.description}</p>
+            <a href='userProfile.html?id=${card.authorId}'>Seller profile</a>
+            <button>Buy</button>
+        `;
+        $("#cards").append(elem);
+    });
 
-	    result.forEach(result => {
-	        // div.classList.add('card');
-		    let div = `
-            <div class="card">
-                <h2><b>${result.name}</b></h2>
-                <img src="${result.photo_url}" heigth="100px" width="100px"></img>
-                <p><b>Price:</b> ${result.price} грн.</p>
-                <p><b>Description:</b> ${result.description}</p>
-                <br>
-                <a href="#">Seller profile</a><br><br>
-                <button class="buybtn">Buy</button>
-            </div>
-		    `;
-            cards.innerHTML += div;
-	    });
-    container.appendChild(cards);
     }
 });
