@@ -18,13 +18,20 @@ $.ajax({
 
 $.ajax({
     url: url+"products?authorId="+id,
-    success: function (product) {
-        console.log(product[0]);
-        $("#user-products").html(`
-            <h1>${product[0].name}</h1>
-            <img src="${product[0].photo_url}" class="productIMG"></img>
-            <p>Balance: ${product[0].price} грн.</p>
-            <p>${product[0].description}</p>
-        `);
+    success: function (response) {
+        console.log(response);
+        $("#user-products").innerHTML = null;
+        response.forEach(product => {
+        let elem = document.createElement('div');
+        elem.classList.add('product');
+        elem.innerHTML = `
+            <h1>${product.name}</h1>
+            <img src="${product.photo_url}" class="productIMG"></img>
+            <p>Balance: ${product.price} грн.</p>
+            <p>${product.description}</p>
+        `;
+        $("#user-products").append(elem);
+    });
+
     }
 });
